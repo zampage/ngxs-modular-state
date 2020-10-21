@@ -1,0 +1,22 @@
+<h1>Dählhölzli Zoo Bern</h1>
+
+<section>
+  <h2>Favorit Animal</h2>
+  <div>{{favoriteAnimal$ | async}}</div>
+
+  <h2>Animals</h2>
+  <ul>
+    <li>Lion</li>
+    <li>Ape</li>
+  </ul>
+
+  <input #field type="string">
+  <button (click)="addAnimal(field.value); field.value = ''">Add</button>
+</section>
+
+<section>
+  <h2>Visitors</h2>
+  <div>Current: 32</div>
+  <button (click)="incrementVisitors()">+</button>
+  <button (click)="decrementVisitors()">-</button>
+</section>

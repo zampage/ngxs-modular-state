@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { patch } from '@ngxs/store/operators';
-import { AddAnimal, getAction, IAnimalActions, insertAnimal, setAnimalState } from '../lib/animal.actions';
-import { AnimalState, AnimalStateModel, AnimalStateSelectors, AnimalStateSelectorsModel, ANIMAL_STATE_NAME } from '../lib/animal.state';
+import { AddAnimal, getAction, IAnimalActions, insertAnimal, setAnimalState } from '../../lib/animal.actions';
+import { AnimalState, AnimalStateModel, AnimalStateSelectors, AnimalStateSelectorsModel, ANIMAL_STATE_NAME } from '../../lib/animal.state';
 import { UpdateFoo } from './main.actions';
 
 /** State Model */

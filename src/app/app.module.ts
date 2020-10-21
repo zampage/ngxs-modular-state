@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgxsModule } from '@ngxs/store';
-import { MainState } from './state/main.state';
-import { AnimalState } from './lib/animal.state';
+import { BernModule } from './bern/bern.module';
+import { BaselModule } from './basel/basel.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +14,9 @@ import { AnimalState } from './lib/animal.state';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgxsModule.forRoot([MainState, AnimalState]),
+    NgxsModule.forRoot(),
+    BernModule,
+    BaselModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
