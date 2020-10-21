@@ -3,14 +3,18 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { AddAnimal, IAnimalActions, insertAnimal, setAnimalState } from 'src/lib/animal.actions';
 import { AnimalState, AnimalStateModel, AnimalStateSelectors, AnimalStateSelectorsModel, ANIMAL_STATE_NAME } from 'src/lib/animal.state';
 import { createActionsFromState } from 'src/lib/state-helper';
+import { DecrementVisitors, IncrementVisitors, IVisitorActions, patchVisitorState } from 'src/lib/visitor.actions';
+import { VisitorState, VisitorStateModel, VISITOR_STATE_NAME, VisitorStateSelectors } from 'src/lib/visitor.state';
 
 const BERN_STATE_NAME = 'bern';
 
-export const BernActions = createActionsFromState(BERN_STATE_NAME, ANIMAL_STATE_NAME);
+export const AnimalActions = createActionsFromState(BERN_STATE_NAME, ANIMAL_STATE_NAME);
+export const VisitorActions = createActionsFromState(BERN_STATE_NAME, VISITOR_STATE_NAME);
 
 export interface BernStateModel {
   favoritAnimal: string;
   [ANIMAL_STATE_NAME]: AnimalStateModel;
+  [VISITOR_STATE_NAME]: VisitorStateModel;
 }
 
 @State<Partial<BernStateModel>>({
@@ -18,12 +22,16 @@ export interface BernStateModel {
   defaults: {
     favoritAnimal: 'Bear',
   },
-  children: [AnimalState],
+  children: [AnimalState, VisitorState],
 })
 @Injectable()
-export class BernState implements IAnimalActions<BernStateModel> {
+export class BernState implements IAnimalActions<BernStateModel>, IVisitorActions<BernStateModel> {
   public static get [ANIMAL_STATE_NAME](): AnimalStateSelectorsModel {
     return AnimalStateSelectors;
+  }
+
+  public static get [VISITOR_STATE_NAME]() {
+    return VisitorStateSelectors;
   }
 
   @Selector()
@@ -31,8 +39,24 @@ export class BernState implements IAnimalActions<BernStateModel> {
     return state.favoritAnimal;
   }
 
-  @Action(BernActions(AddAnimal))
+  @Action(AnimalActions(AddAnimal))
   public addAnimal(ctx: StateContext<BernStateModel>, {animal}: AddAnimal): void {
     ctx.setState(setAnimalState(insertAnimal(animal)));
+  }
+
+  @Action(VisitorActions(IncrementVisitors))
+  public incrementVisitors(ctx: StateContext<BernStateModel>): void {
+    const current = ctx.getState()[VISITOR_STATE_NAME].visitors;
+    ctx.setState(patchVisitorState({
+      visitors: current + 1,
+    }));
+  }
+
+  @Action(VisitorActions(DecrementVisitors))
+  public decrementVisitors(ctx: StateContext<BernStateModel>): void {
+    const current = ctx.getState()[VISITOR_STATE_NAME].visitors;
+    ctx.setState(patchVisitorState({
+      visitors: Math.max(current - 1, 0),
+    }));
   }
 }
