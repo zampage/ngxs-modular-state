@@ -22,6 +22,7 @@ export class BernComponent {
   public visitors$: Observable<number>;
 
   constructor(private store: Store){
+    console.log(this.store.selectSnapshot(BernState));
     console.log(AnimalActions(AddAnimal).type);
   }
 
