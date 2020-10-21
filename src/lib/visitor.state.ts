@@ -1,30 +1,24 @@
-import { Injectable } from '@angular/core';
-import { createSelector, State } from '@ngxs/store';
+import { createSelector } from '@ngxs/store';
 
 /** State Name */
 export const VISITOR_STATE_NAME = 'visitor';
+
+export interface ParentStateModel {
+  [VISITOR_STATE_NAME]: VisitorStateModel;
+}
 
 /** State Model */
 export interface VisitorStateModel {
   visitors: number;
 }
 
-/** State */
-@State<VisitorStateModel>({
-  name: VISITOR_STATE_NAME,
-  defaults: {
-    visitors: 0,
-  }
-})
-@Injectable()
-export class VisitorState {}
-
-/** State Selector Model */
-// export interface VisitorStateSelectorsModel {
-//   getVisitors: (state: VisitorStateModel) => number;
-// }
+export const VisitorStateDefaults = {
+  visitors: 0,
+};
 
 /** State Selectors */
-export const VisitorStateSelectors/*: VisitorStateSelectorsModel*/ = {
-  getVisitors: createSelector([VisitorState], (state: VisitorStateModel) => state.visitors)
+export function VisitorStateSelectors<TStateModel extends ParentStateModel>(parentState) {
+  return {
+    getVisitors: createSelector([parentState], ({[VISITOR_STATE_NAME]: state}: TStateModel) => state.visitors),
+  };
 };

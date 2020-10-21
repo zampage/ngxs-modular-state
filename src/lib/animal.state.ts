@@ -1,8 +1,12 @@
-import { Injectable } from '@angular/core';
-import { createSelector, State } from '@ngxs/store';
+import { createSelector } from '@ngxs/store';
 
 /** State Name */
 export const ANIMAL_STATE_NAME = 'animal';
+
+// TODO generalize?
+export interface ParentStateModel {
+  [ANIMAL_STATE_NAME]: AnimalStateModel;
+}
 
 /** State Model */
 export interface AnimalStateModel {
@@ -10,23 +14,14 @@ export interface AnimalStateModel {
   count: number;
 }
 
-/** State */
-@State<AnimalStateModel>({
-  name: ANIMAL_STATE_NAME,
-  defaults: {
-    animals: ['Lion'],
-    count: 1,
-  }
-})
-@Injectable()
-export class AnimalState {}
-
-/** State Selector Model */
-export interface AnimalStateSelectorsModel {
-  getAnimals: (state: AnimalStateModel) => string[];
-}
+export const AnimalStateDefaults = {
+  animals: ['Lion'],
+  count: 1,
+};
 
 /** State Selectors */
-export const AnimalStateSelectors: AnimalStateSelectorsModel = {
-  getAnimals: createSelector([AnimalState], (state: AnimalStateModel) => state.animals)
-};
+export function AnimalStateSelectors<TStateModel extends ParentStateModel>(parentState) {
+  return {
+    getAnimals: createSelector([parentState], ({[ANIMAL_STATE_NAME]: state}: TStateModel) => state.animals),
+  };
+}

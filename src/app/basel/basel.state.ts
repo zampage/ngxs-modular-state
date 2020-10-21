@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { AddAnimal, IAnimalActions, insertAnimal, setAnimalState } from 'src/lib/animal.actions';
-import { AnimalState, AnimalStateModel, AnimalStateSelectors, AnimalStateSelectorsModel, ANIMAL_STATE_NAME } from 'src/lib/animal.state';
+import { AnimalStateDefaults, AnimalStateModel, AnimalStateSelectors, ANIMAL_STATE_NAME } from 'src/lib/animal.state';
 import { createActionsFromState } from 'src/lib/state-helper';
 import { DecrementVisitors, IncrementVisitors, IVisitorActions, patchVisitorState } from 'src/lib/visitor.actions';
-import { VisitorState, VisitorStateModel, VISITOR_STATE_NAME, VisitorStateSelectors } from 'src/lib/visitor.state';
+import { VisitorStateModel, VISITOR_STATE_NAME, VisitorStateSelectors, VisitorStateDefaults } from 'src/lib/visitor.state';
 
 const BASEL_STATE_NAME = 'basel';
 
@@ -20,18 +20,19 @@ export interface BaselStateModel {
 @State<Partial<BaselStateModel>>({
   name: BASEL_STATE_NAME,
   defaults: {
-    favoritAnimal: 'Lion',
+    favoritAnimal: 'Eagle',
+    [ANIMAL_STATE_NAME]: AnimalStateDefaults,
+    [VISITOR_STATE_NAME]: VisitorStateDefaults,
   },
-  children: [AnimalState, VisitorState],
 })
 @Injectable()
 export class BaselState implements IAnimalActions<BaselStateModel>, IVisitorActions<BaselStateModel> {
-  public static get [ANIMAL_STATE_NAME](): AnimalStateSelectorsModel {
-    return AnimalStateSelectors;
+  public static get [ANIMAL_STATE_NAME]() {
+    return AnimalStateSelectors(BaselState);
   }
 
   public static get [VISITOR_STATE_NAME]() {
-    return VisitorStateSelectors;
+    return VisitorStateSelectors(BaselState);
   }
 
   @Selector()
