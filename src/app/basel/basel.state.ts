@@ -22,7 +22,7 @@ export interface BaselStateModel {
   defaults: {
     favoritAnimal: 'Eagle',
     [ANIMAL_STATE_NAME]: AnimalStateDefaults,
-    [VISITOR_STATE_NAME]: VisitorStateDefaults,
+    [VISITOR_STATE_NAME]: Object.assign({}, VisitorStateDefaults, {ticketPrize: 12} as VisitorStateModel),
   },
 })
 @Injectable()

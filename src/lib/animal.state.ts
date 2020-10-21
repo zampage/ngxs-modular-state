@@ -14,10 +14,10 @@ export interface AnimalStateModel {
   count: number;
 }
 
-export const AnimalStateDefaults = {
+export const AnimalStateDefaults: Readonly<AnimalStateModel> = Object.freeze({
   animals: ['Lion'],
   count: 1,
-};
+});
 
 /** State Selectors */
 export function AnimalStateSelectors<TStateModel extends ParentStateModel>(parentState) {

@@ -16,6 +16,7 @@
 <section>
   <h2>Visitors</h2>
   <div>Current: {{visitors$ | async}}</div>
+  <div>Revenue: {{revenue$ | async}}</div>
   <button (click)="incrementVisitors()">+</button>
   <button (click)="decrementVisitors()">-</button>
 </section>

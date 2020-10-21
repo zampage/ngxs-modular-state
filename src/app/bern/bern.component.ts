@@ -21,6 +21,9 @@ export class BernComponent {
   @Select(BernState.visitor.getVisitors)
   public visitors$: Observable<number>;
 
+  @Select(BernState.visitor.getRevenue)
+  public revenue$: Observable<number>;
+
   constructor(private store: Store){
     console.log(this.store.selectSnapshot(BernState));
     console.log(AnimalActions(AddAnimal).type);

@@ -21,6 +21,9 @@ export class BaselComponent {
   @Select(BaselState.visitor.getVisitors)
   public visitors$: Observable<number>;
 
+  @Select(BaselState.visitor.getRevenue)
+  public revenue$: Observable<number>;
+
   constructor(private store: Store){
     console.log(this.store.selectSnapshot(BaselState));
     console.log(AnimalActions(AddAnimal).type);
