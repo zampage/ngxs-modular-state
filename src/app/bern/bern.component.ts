@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import {BernState} from './bern.state';
+import { AddAnimal } from 'src/lib/animal.actions';
+import {BernState, BernActions} from './bern.state';
 
 @Component({
   selector: 'app-bern',
@@ -13,8 +14,15 @@ export class BernComponent {
   @Select(BernState.favoritAnimal)
   public favoriteAnimal$: Observable<string>;
 
+  @Select(BernState.animal.getAnimals)
+  public animals$: Observable<string[]>;
+
+  constructor(private store: Store){
+    console.log(BernActions(AddAnimal).type);
+  }
+
   public addAnimal(animal: string) {
-    console.log(animal);
+    this.store.dispatch(new (BernActions(AddAnimal))(animal)).subscribe();
   }
 
   public incrementVisitors() {

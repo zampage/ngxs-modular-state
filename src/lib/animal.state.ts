@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createSelector, State } from '@ngxs/store';
 
 /** State Name */
-export const ANIMAL_STATE_NAME = 'animalState';
+export const ANIMAL_STATE_NAME = 'animal';
 
 /** State Model */
 export interface AnimalStateModel {

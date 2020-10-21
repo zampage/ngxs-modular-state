@@ -6,8 +6,7 @@
 
   <h2>Animals</h2>
   <ul>
-    <li>Lion</li>
-    <li>Ape</li>
+    <li *ngFor="let animal of animals$ | async">{{animal}}</li>
   </ul>
 
   <input #field type="string">
