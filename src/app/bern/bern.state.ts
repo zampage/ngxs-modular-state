@@ -41,7 +41,7 @@ export class BernState implements IAnimalActions<BernStateModel>, IVisitorAction
 
   @Action(BernActions(AddAnimal))
   public addAnimal(ctx: StateContext<BernStateModel>, { animal }: AddAnimal): void {
-    ctx.setState(setAnimalState(insertAnimal(animal)));
+    ctx.setState(insertAnimal<BernStateModel>(animal));
   }
 
   @Action(BernActions(IncrementVisitors))

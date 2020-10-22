@@ -25,11 +25,10 @@ export function setAnimalState<TStateModel extends ParentStateModel>(animalState
   });
 }
 
-export function insertAnimal(animal: string): StateOperator<AnimalStateModel> {
-  return (state: Readonly<AnimalStateModel>) => ({
+export function insertAnimal<TStateModel extends ParentStateModel>(animal: string): StateOperator<TStateModel> {
+  return setAnimalState((state: Readonly<AnimalStateModel>) => ({
     ...state,
     animals: [...state.animals, animal],
     count: state.count + 1
-  });
+  }));
 }
-

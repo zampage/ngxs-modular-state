@@ -41,7 +41,7 @@ export class BaselState implements IAnimalActions<BaselStateModel>, IVisitorActi
 
   @Action(BaselActions(AddAnimal))
   public addAnimal(ctx: StateContext<BaselStateModel>, { animal }: AddAnimal): void {
-    ctx.setState(setAnimalState(insertAnimal(animal)));
+    ctx.setState(insertAnimal(animal));
   }
 
   @Action(BaselActions(IncrementVisitors))
