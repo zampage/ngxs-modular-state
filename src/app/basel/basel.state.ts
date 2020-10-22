@@ -8,8 +8,7 @@ import { VisitorStateModel, VISITOR_STATE_NAME, VisitorStateSelectors, VisitorSt
 
 const BASEL_STATE_NAME = 'basel';
 
-export const AnimalActions = createActionsFromState(BASEL_STATE_NAME, ANIMAL_STATE_NAME);
-export const VisitorActions = createActionsFromState(BASEL_STATE_NAME, VISITOR_STATE_NAME);
+export const BaselActions = createActionsFromState(BASEL_STATE_NAME);
 
 export interface BaselStateModel {
   favoritAnimal: string;
@@ -22,7 +21,7 @@ export interface BaselStateModel {
   defaults: {
     favoritAnimal: 'Eagle',
     [ANIMAL_STATE_NAME]: AnimalStateDefaults,
-    [VISITOR_STATE_NAME]: Object.assign({}, VisitorStateDefaults, {ticketPrize: 12} as VisitorStateModel),
+    [VISITOR_STATE_NAME]: Object.assign({}, VisitorStateDefaults, { ticketPrize: 12 } as VisitorStateModel),
   },
 })
 @Injectable()
@@ -40,12 +39,12 @@ export class BaselState implements IAnimalActions<BaselStateModel>, IVisitorActi
     return state.favoritAnimal;
   }
 
-  @Action(AnimalActions(AddAnimal))
-  public addAnimal(ctx: StateContext<BaselStateModel>, {animal}: AddAnimal): void {
+  @Action(BaselActions(AddAnimal))
+  public addAnimal(ctx: StateContext<BaselStateModel>, { animal }: AddAnimal): void {
     ctx.setState(setAnimalState(insertAnimal(animal)));
   }
 
-  @Action(VisitorActions(IncrementVisitors))
+  @Action(BaselActions(IncrementVisitors))
   public incrementVisitors(ctx: StateContext<BaselStateModel>): void {
     const current = ctx.getState()[VISITOR_STATE_NAME].visitors;
     ctx.setState(patchVisitorState({
@@ -53,7 +52,7 @@ export class BaselState implements IAnimalActions<BaselStateModel>, IVisitorActi
     }));
   }
 
-  @Action(VisitorActions(DecrementVisitors))
+  @Action(BaselActions(DecrementVisitors))
   public decrementVisitors(ctx: StateContext<BaselStateModel>): void {
     const current = ctx.getState()[VISITOR_STATE_NAME].visitors;
     ctx.setState(patchVisitorState({

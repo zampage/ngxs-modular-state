@@ -4,11 +4,11 @@ import { PatchSpec } from '@ngxs/store/operators/patch';
 import { ParentStateModel, VisitorStateModel, VISITOR_STATE_NAME } from './visitor.state';
 
 export abstract class IncrementVisitors {
-  constructor() {}
+  constructor() { }
 }
 
 export abstract class DecrementVisitors {
-  constructor() {}
+  constructor() { }
 }
 
 export interface IVisitorActions<TStateModel> {
@@ -17,14 +17,14 @@ export interface IVisitorActions<TStateModel> {
 }
 
 export function patchVisitorState<TStateModel extends ParentStateModel>(visitorState: PatchSpec<VisitorStateModel>)
-: StateOperator<TStateModel> {
+  : StateOperator<TStateModel> {
   return patch({
     [VISITOR_STATE_NAME]: patch(visitorState)
   });
 }
 
 export function setVisitorState<TStateModel extends ParentStateModel>(visitorState: VisitorStateModel | StateOperator<VisitorStateModel>)
-: StateOperator<TStateModel> {
+  : StateOperator<TStateModel> {
   return patch({
     [VISITOR_STATE_NAME]: visitorState
   });

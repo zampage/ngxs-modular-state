@@ -4,7 +4,7 @@ import { PatchSpec } from '@ngxs/store/operators/patch';
 import { AnimalStateModel, ANIMAL_STATE_NAME, ParentStateModel } from './animal.state';
 
 export abstract class AddAnimal {
-  constructor(public animal: string) {}
+  constructor(public animal: string) { }
 }
 
 export interface IAnimalActions<TStateModel> {
@@ -12,14 +12,14 @@ export interface IAnimalActions<TStateModel> {
 }
 
 export function patchAnimalState<TStateModel extends ParentStateModel>(animalState: PatchSpec<AnimalStateModel>)
-: StateOperator<TStateModel> {
+  : StateOperator<TStateModel> {
   return patch({
     [ANIMAL_STATE_NAME]: patch(animalState)
   });
 }
 
 export function setAnimalState<TStateModel extends ParentStateModel>(animalState: AnimalStateModel | StateOperator<AnimalStateModel>)
-: StateOperator<TStateModel> {
+  : StateOperator<TStateModel> {
   return patch({
     [ANIMAL_STATE_NAME]: animalState
   });

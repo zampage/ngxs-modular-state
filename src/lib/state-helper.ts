@@ -1,6 +1,6 @@
-export function createActionsFromState(state: string, childState: string) {
+export function createActionsFromState(state: string) {
   return (action: any) => class extends (action) {
-    public static readonly type = `[${state}][${childState}] ${action.name}`;
+    public static readonly type = `[${state}] ${action.name}`;
     constructor(...args: any) {
       super(...args);
     }
