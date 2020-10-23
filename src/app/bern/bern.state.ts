@@ -11,7 +11,7 @@ import { updateVisitors } from '../../lib/visitor.actions';
 
 const BERN_STATE_NAME = 'bern';
 
-export const BernAction = createActionsFromState(BERN_STATE_NAME);
+const BernAction = createActionsFromState(BERN_STATE_NAME);
 export const CreateBernAction = createActionCreatorsFromState(BERN_STATE_NAME);
 
 export interface BernStateModel {

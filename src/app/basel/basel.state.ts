@@ -11,7 +11,7 @@ import { updateVisitors } from '../../lib/visitor.actions';
 
 const BASEL_STATE_NAME = 'basel';
 
-export const BaselActions = createActionsFromState(BASEL_STATE_NAME);
+const BaselActions = createActionsFromState(BASEL_STATE_NAME);
 export const CreateBaselAction = createActionExecutersFromState(BASEL_STATE_NAME);
 
 export interface BaselStateModel {

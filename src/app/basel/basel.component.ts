@@ -3,7 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { AddAnimal } from 'src/lib/animal.actions';
 import { DecrementVisitors, IncrementVisitors } from 'src/lib/visitor.actions';
-import { BaselState, BaselActions, CreateBaselAction } from './basel.state';
+import { BaselState, CreateBaselAction } from './basel.state';
 
 @Component({
   selector: 'app-basel',
@@ -24,11 +24,7 @@ export class BaselComponent {
   @Select(BaselState.visitorState.getRevenue)
   public revenue$: Observable<number>;
 
-  constructor(private store: Store) {
-    console.log(this.store.selectSnapshot(BaselState));
-    console.log(BaselActions(AddAnimal).type);
-    console.log(BaselActions(IncrementVisitors).type);
-  }
+  constructor(private store: Store) { }
 
   public addAnimal(animal: string) {
     this.store.dispatch(CreateBaselAction(AddAnimal, animal));
