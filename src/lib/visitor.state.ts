@@ -1,10 +1,4 @@
-import { createSelector } from '@ngxs/store';
-
-export const VISITOR_STATE_NAME = 'visitor';
-
-export interface ParentStateModel {
-  [VISITOR_STATE_NAME]: VisitorStateModel;
-}
+import { IStateSelectors } from './state-helper';
 
 export interface VisitorStateModel {
   visitors: number;
@@ -16,9 +10,7 @@ export const VisitorStateDefaults: Readonly<VisitorStateModel> = Object.freeze({
   ticketPrize: 10,
 });
 
-export function VisitorStateSelectors<TStateModel extends ParentStateModel>(parentState) {
-  return {
-    getVisitors: createSelector([parentState], ({[VISITOR_STATE_NAME]: state}: TStateModel) => state.visitors),
-    getRevenue: createSelector([parentState], ({[VISITOR_STATE_NAME]: state}: TStateModel) => state.visitors * state.ticketPrize),
-  };
+export const VisitorStateSelectors: IStateSelectors<VisitorStateModel> = {
+  getVisitors: (state: VisitorStateModel) => state.visitors,
+  getRevenue: (state: VisitorStateModel) => state.visitors * state.ticketPrize,
 };

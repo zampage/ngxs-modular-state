@@ -1,10 +1,6 @@
-import { createSelector } from '@ngxs/store';
+import { IStateSelectors } from './state-helper';
 
 export const ANIMAL_STATE_NAME = 'animal';
-
-export interface ParentStateModel {
-  [ANIMAL_STATE_NAME]: AnimalStateModel;
-}
 
 export interface AnimalStateModel {
   animals: string[];
@@ -16,8 +12,6 @@ export const AnimalStateDefaults: Readonly<AnimalStateModel> = Object.freeze({
   count: 1,
 });
 
-export function AnimalStateSelectors<TStateModel extends ParentStateModel>(parentState) {
-  return {
-    getAnimals: createSelector([parentState], ({[ANIMAL_STATE_NAME]: state}: TStateModel) => state.animals),
-  };
-}
+export const AnimalStateSelectors: IStateSelectors<AnimalStateModel> = {
+  getAnimals: (state: AnimalStateModel) => state.animals,
+};

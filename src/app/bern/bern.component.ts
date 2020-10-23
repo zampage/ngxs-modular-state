@@ -15,13 +15,13 @@ export class BernComponent {
   @Select(BernState.favoritAnimal)
   public favoriteAnimal$: Observable<string>;
 
-  @Select(BernState.animal.getAnimals)
+  @Select(BernState.animalState.getAnimals)
   public animals$: Observable<string[]>;
 
-  @Select(BernState.visitor.getVisitors)
+  @Select(BernState.visitorState.getVisitors)
   public visitors$: Observable<number>;
 
-  @Select(BernState.visitor.getRevenue)
+  @Select(BernState.visitorState.getRevenue)
   public revenue$: Observable<number>;
 
   constructor(private store: Store) {

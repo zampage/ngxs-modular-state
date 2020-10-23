@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { AddAnimal, IAnimalActions, insertAnimal } from 'src/lib/animal.actions';
-import { AnimalStateDefaults, AnimalStateModel, AnimalStateSelectors, ANIMAL_STATE_NAME } from 'src/lib/animal.state';
+import { AnimalStateDefaults, AnimalStateModel, AnimalStateSelectors } from 'src/lib/animal.state';
 import { createActionsFromState } from 'src/lib/state-helper';
-import { DecrementVisitors, IncrementVisitors, IVisitorActions, patchVisitorState } from 'src/lib/visitor.actions';
-import { VisitorStateModel, VISITOR_STATE_NAME, VisitorStateSelectors, VisitorStateDefaults } from 'src/lib/visitor.state';
+import { DecrementVisitors, IncrementVisitors, IVisitorActions } from 'src/lib/visitor.actions';
+import { VisitorStateModel, VisitorStateSelectors, VisitorStateDefaults } from 'src/lib/visitor.state';
+import { createChildSelectors } from '../../lib/state-helper';
+import { patch } from '@ngxs/store/operators';
+import { updateVisitors } from '../../lib/visitor.actions';
 
 const BASEL_STATE_NAME = 'basel';
 
@@ -12,26 +15,26 @@ export const BaselActions = createActionsFromState(BASEL_STATE_NAME);
 
 export interface BaselStateModel {
   favoritAnimal: string;
-  [ANIMAL_STATE_NAME]: AnimalStateModel;
-  [VISITOR_STATE_NAME]: VisitorStateModel;
+  animalState: AnimalStateModel;
+  visitorState: VisitorStateModel;
 }
 
 @State<Partial<BaselStateModel>>({
   name: BASEL_STATE_NAME,
   defaults: {
     favoritAnimal: 'Eagle',
-    [ANIMAL_STATE_NAME]: AnimalStateDefaults,
-    [VISITOR_STATE_NAME]: Object.assign({}, VisitorStateDefaults, { ticketPrize: 12 } as VisitorStateModel),
+    animalState: AnimalStateDefaults,
+    visitorState: Object.assign({}, VisitorStateDefaults, { ticketPrize: 12 } as VisitorStateModel),
   },
 })
 @Injectable()
 export class BaselState implements IAnimalActions<BaselStateModel>, IVisitorActions<BaselStateModel> {
-  public static get [ANIMAL_STATE_NAME]() {
-    return AnimalStateSelectors(BaselState);
+  public static get animalState() {
+    return createChildSelectors<BaselStateModel, AnimalStateModel>(BaselState, AnimalStateSelectors, 'animalState');
   }
 
-  public static get [VISITOR_STATE_NAME]() {
-    return VisitorStateSelectors(BaselState);
+  public static get visitorState() {
+    return createChildSelectors<BaselStateModel, VisitorStateModel>(BaselState, VisitorStateSelectors, 'visitorState');
   }
 
   @Selector()
@@ -41,22 +44,22 @@ export class BaselState implements IAnimalActions<BaselStateModel>, IVisitorActi
 
   @Action(BaselActions(AddAnimal))
   public addAnimal(ctx: StateContext<BaselStateModel>, { animal }: AddAnimal): void {
-    ctx.setState(insertAnimal(animal));
+    ctx.setState(patch<BaselStateModel>({
+      animalState: insertAnimal(animal),
+    }));
   }
 
   @Action(BaselActions(IncrementVisitors))
   public incrementVisitors(ctx: StateContext<BaselStateModel>): void {
-    const current = ctx.getState()[VISITOR_STATE_NAME].visitors;
-    ctx.setState(patchVisitorState({
-      visitors: current + 1,
+    ctx.setState(patch<BaselStateModel>({
+      visitorState: updateVisitors(1),
     }));
   }
 
   @Action(BaselActions(DecrementVisitors))
   public decrementVisitors(ctx: StateContext<BaselStateModel>): void {
-    const current = ctx.getState()[VISITOR_STATE_NAME].visitors;
-    ctx.setState(patchVisitorState({
-      visitors: Math.max(current - 1, 0),
+    ctx.setState(patch<BaselStateModel>({
+      visitorState: updateVisitors(-1),
     }));
   }
 }

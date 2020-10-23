@@ -15,13 +15,13 @@ export class BaselComponent {
   @Select(BaselState.favoritAnimal)
   public favoriteAnimal$: Observable<string>;
 
-  @Select(BaselState.animal.getAnimals)
+  @Select(BaselState.animalState.getAnimals)
   public animals$: Observable<string[]>;
 
-  @Select(BaselState.visitor.getVisitors)
+  @Select(BaselState.visitorState.getVisitors)
   public visitors$: Observable<number>;
 
-  @Select(BaselState.visitor.getRevenue)
+  @Select(BaselState.visitorState.getRevenue)
   public revenue$: Observable<number>;
 
   constructor(private store: Store) {

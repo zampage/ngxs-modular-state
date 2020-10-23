@@ -1,7 +1,5 @@
 import { StateContext, StateOperator } from '@ngxs/store';
-import { patch } from '@ngxs/store/operators';
-import { PatchSpec } from '@ngxs/store/operators/patch';
-import { ParentStateModel, VisitorStateModel, VISITOR_STATE_NAME } from './visitor.state';
+import { VisitorStateModel } from './visitor.state';
 
 export abstract class IncrementVisitors {
   constructor() { }
@@ -16,16 +14,9 @@ export interface IVisitorActions<TStateModel> {
   decrementVisitors(state: StateContext<TStateModel>, action: DecrementVisitors): void;
 }
 
-export function patchVisitorState<TStateModel extends ParentStateModel>(visitorState: PatchSpec<VisitorStateModel>)
-  : StateOperator<TStateModel> {
-  return patch({
-    [VISITOR_STATE_NAME]: patch(visitorState)
-  });
-}
-
-export function setVisitorState<TStateModel extends ParentStateModel>(visitorState: VisitorStateModel | StateOperator<VisitorStateModel>)
-  : StateOperator<TStateModel> {
-  return patch({
-    [VISITOR_STATE_NAME]: visitorState
+export function updateVisitors(difference: number): StateOperator<VisitorStateModel> {
+  return (state: Readonly<VisitorStateModel>) => ({
+    ...state,
+    visitors: Math.max(state.visitors + difference, 0),
   });
 }
