@@ -6,7 +6,7 @@ export abstract class AddAnimal {
 }
 
 export interface IAnimalActions<TStateModel> {
-  addAnimal(state: StateContext<TStateModel>, action: AddAnimal): void;
+  addAnimal(state: StateContext<TStateModel>, action: AddAnimal): any;
 }
 
 export function insertAnimal(animal: string): StateOperator<AnimalStateModel> {

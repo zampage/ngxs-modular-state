@@ -10,8 +10,8 @@ export abstract class DecrementVisitors {
 }
 
 export interface IVisitorActions<TStateModel> {
-  incrementVisitors(state: StateContext<TStateModel>, action: IncrementVisitors): void;
-  decrementVisitors(state: StateContext<TStateModel>, action: DecrementVisitors): void;
+  incrementVisitors(state: StateContext<TStateModel>, action: IncrementVisitors): any;
+  decrementVisitors(state: StateContext<TStateModel>, action: DecrementVisitors): any;
 }
 
 export function updateVisitors(difference: number): StateOperator<VisitorStateModel> {
