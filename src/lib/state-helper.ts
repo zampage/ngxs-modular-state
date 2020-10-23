@@ -27,9 +27,9 @@ export interface StateSelectors<StateModel> {
 
 export function createChildSelectors<PStateModel extends IncludesType<PStateModel, CStateModel>, CStateModel>(
   parentState: any,
-  childSelectors: { [key: string]: (state: CStateModel) => any },
+  childSelectors: StateSelectors<CStateModel>,
   childProperty: keyof PStateModel
-): StateSelectors<PStateModel> {
+): { [Key in keyof StateSelectors<PStateModel>]: typeof createSelector } {
   const extractChildState = (state: PStateModel): CStateModel => state[childProperty];
   return Object.keys(childSelectors).reduce((s, k) => ({
     ...s, [k]: createSelector(
