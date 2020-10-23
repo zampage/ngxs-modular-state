@@ -5,13 +5,14 @@ import { AnimalStateDefaults, AnimalStateModel, AnimalStateSelectors } from 'src
 import { createActionsFromState } from 'src/lib/state-helper';
 import { DecrementVisitors, IncrementVisitors, IVisitorActions } from 'src/lib/visitor.actions';
 import { VisitorStateModel, VisitorStateSelectors, VisitorStateDefaults } from 'src/lib/visitor.state';
-import { createChildSelectors } from '../../lib/state-helper';
+import { createChildSelectors, createActionExecutersFromState } from '../../lib/state-helper';
 import { patch } from '@ngxs/store/operators';
 import { updateVisitors } from '../../lib/visitor.actions';
 
 const BASEL_STATE_NAME = 'basel';
 
 export const BaselActions = createActionsFromState(BASEL_STATE_NAME);
+export const CreateBaselAction = createActionExecutersFromState(BASEL_STATE_NAME);
 
 export interface BaselStateModel {
   favoritAnimal: string;

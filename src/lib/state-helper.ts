@@ -4,13 +4,21 @@ type IncludesType<Parent, Type> = {
   [Key in Extract<keyof Parent, Type>]: Parent[Key]
 };
 
-export function createActionsFromState(state: string) {
-  return (action: any) => class extends (action) {
+function createAction(state: string, action: any) {
+  return class extends (action) {
     public static readonly type = `[${state}] ${action.name}`;
     constructor(...args: any) {
       super(...args);
     }
   };
+}
+
+export function createActionsFromState(state: string) {
+  return (action: any) => createAction(state, action);
+}
+
+export function createActionExecutersFromState(state: string) {
+  return (action: any, ...args: any) => new (createAction(state, action))(...args);
 }
 
 export interface IStateSelectors<StateModel> {
