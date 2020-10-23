@@ -1,7 +1,5 @@
 import { IStateSelectors } from './state-helper';
 
-export const ANIMAL_STATE_NAME = 'animal';
-
 export interface AnimalStateModel {
   animals: string[];
   count: number;
