@@ -1,27 +1,71 @@
-# StateToolkit
+# ngxs-modular-state
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.9.
+This project is a conceptual prototype to create modular states using [NGXS](https://www.ngxs.io/).
 
-## Development server
+Serve the project via `npm start`.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Child State Module (Animal, Visitor)
 
-## Code scaffolding
+A child state module consists of `child.state.ts` and `child.actions.ts` files.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### State settings (`child.state.ts`)
 
-## Build
+Create the model of your child state.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```ts
+export interface DemoStateModel {
+  count: number;
+  // ...
+}
+```
 
-## Running unit tests
+Create some readonly default data if needed.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```ts
+export const DemoStateDefaults: Readonly<DemoStateModel> = Object.freeze({
+  count: 0,
+  // ...
+});
+```
 
-## Running end-to-end tests
+Further create all the basic selectors your state will have in the format of the `IStateSelectors` interface which is a simplified version of ngxs's `createSelector` notation.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+```ts
+export const ChildStateSelectors: IStateSelectors<ChildStateModel> = {
+  getCount: (state: ChildStateModel) => state.count,
+  // ...
+};
+```
 
-## Further help
+### Actions (`child.actions.ts`)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Create your action the ngxs way. but leave out the type and make the class abstract.
+
+```ts
+export abstract class IncrementCount {
+  constructor() {}
+}
+```
+
+Add your action to an interface which defines the actions your parent state will have to implement.
+
+```ts
+export interface IDemoActions<ParentStateModel> {
+  incrementCount(
+    state: StateContext<ParentStateModel>,
+    action: IncrementCount
+  ): any;
+  // ...
+}
+```
+
+Create some `StateOperator`'s for your parent state to implement actions more easily if necessary.
+
+```ts
+export function incrementCount(): StateOperator<DemoStateModel> {
+  return (state: Readonly<DemoStateModel>) => ({
+    ...state,
+    count: state.count + 1,
+  });
+}
+```
