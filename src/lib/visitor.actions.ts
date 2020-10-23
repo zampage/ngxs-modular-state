@@ -9,7 +9,7 @@ export abstract class DecrementVisitors {
   constructor() { }
 }
 
-export interface IVisitorActions<TStateModel> {
+export interface VisitorActions<TStateModel> {
   incrementVisitors(state: StateContext<TStateModel>, action: IncrementVisitors): any;
   decrementVisitors(state: StateContext<TStateModel>, action: DecrementVisitors): any;
 }

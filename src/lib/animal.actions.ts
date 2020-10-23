@@ -5,7 +5,7 @@ export abstract class AddAnimal {
   constructor(public animal: string) { }
 }
 
-export interface IAnimalActions<TStateModel> {
+export interface AnimalActions<TStateModel> {
   addAnimal(state: StateContext<TStateModel>, action: AddAnimal): any;
 }
 

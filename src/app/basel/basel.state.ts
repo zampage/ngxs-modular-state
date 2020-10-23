@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { AddAnimal, IAnimalActions, insertAnimal } from 'src/lib/animal.actions';
+import { AddAnimal, AnimalActions, insertAnimal } from 'src/lib/animal.actions';
 import { AnimalStateDefaults, AnimalStateModel, AnimalStateSelectors } from 'src/lib/animal.state';
 import { createActionsFromState } from 'src/lib/state-helper';
-import { DecrementVisitors, IncrementVisitors, IVisitorActions } from 'src/lib/visitor.actions';
+import { DecrementVisitors, IncrementVisitors, VisitorActions } from 'src/lib/visitor.actions';
 import { VisitorStateModel, VisitorStateSelectors, VisitorStateDefaults } from 'src/lib/visitor.state';
 import { createChildSelectors, createActionExecutersFromState } from '../../lib/state-helper';
 import { patch } from '@ngxs/store/operators';
@@ -29,7 +29,7 @@ export interface BaselStateModel {
   },
 })
 @Injectable()
-export class BaselState implements IAnimalActions<BaselStateModel>, IVisitorActions<BaselStateModel> {
+export class BaselState implements AnimalActions<BaselStateModel>, VisitorActions<BaselStateModel> {
   public static get animalState() {
     return createChildSelectors<BaselStateModel, AnimalStateModel>(BaselState, AnimalStateSelectors, 'animalState');
   }

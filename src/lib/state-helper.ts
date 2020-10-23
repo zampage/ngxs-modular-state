@@ -21,7 +21,7 @@ export function createActionExecutersFromState(state: string) {
   return (action: any, ...args: any) => new (createAction(state, action))(...args);
 }
 
-export interface IStateSelectors<StateModel> {
+export interface StateSelectors<StateModel> {
   [key: string]: (state: StateModel) => any;
 }
 
@@ -29,7 +29,7 @@ export function createChildSelectors<PStateModel extends IncludesType<PStateMode
   parentState: any,
   childSelectors: { [key: string]: (state: CStateModel) => any },
   childProperty: keyof PStateModel
-): IStateSelectors<PStateModel> {
+): StateSelectors<PStateModel> {
   const extractChildState = (state: PStateModel): CStateModel => state[childProperty];
   return Object.keys(childSelectors).reduce((s, k) => ({
     ...s, [k]: createSelector(

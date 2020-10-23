@@ -1,4 +1,4 @@
-import { IStateSelectors } from './state-helper';
+import { StateSelectors } from './state-helper';
 
 export interface AnimalStateModel {
   animals: string[];
@@ -10,6 +10,6 @@ export const AnimalStateDefaults: Readonly<AnimalStateModel> = Object.freeze({
   count: 1,
 });
 
-export const AnimalStateSelectors: IStateSelectors<AnimalStateModel> = {
+export const AnimalStateSelectors: StateSelectors<AnimalStateModel> = {
   getAnimals: (state: AnimalStateModel) => state.animals,
 };
