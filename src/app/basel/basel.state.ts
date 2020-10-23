@@ -20,12 +20,12 @@ export interface BaselStateModel {
   visitorState: VisitorStateModel;
 }
 
-@State<Partial<BaselStateModel>>({
+@State<BaselStateModel>({
   name: BASEL_STATE_NAME,
   defaults: {
     favoritAnimal: 'Eagle',
     animalState: AnimalStateDefaults,
-    visitorState: Object.assign({}, VisitorStateDefaults, { ticketPrize: 12 } as VisitorStateModel),
+    visitorState: { ...VisitorStateDefaults, ticketPrize: 12 },
   },
 })
 @Injectable()

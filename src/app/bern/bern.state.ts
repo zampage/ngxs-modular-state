@@ -20,7 +20,7 @@ export interface BernStateModel {
   visitorState: VisitorStateModel;
 }
 
-@State<Partial<BernStateModel>>({
+@State<BernStateModel>({
   name: BERN_STATE_NAME,
   defaults: {
     favoritAnimal: 'Bear',
